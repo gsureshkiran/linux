@@ -1,0 +1,169 @@
+!/bin/bash
+#this is sample project where we are deloying java based project using shell scrpting
+#tool: git ,github,maven
+#server: tomcat
+#repo: github
+#scripting: shell
+#category: functions
+#lang: java
+#type of artifacts: war
+#testing framework: junit
+#confgiuratuon server: Amazonon-linux2
+
+function pullRepoGit()
+{
+        read -p "enter the directory name" myrepo
+        mkdir $myrepo
+        cd myrepo
+        git clone https://github.com/SriDevops-T/petclinicProject.git
+}
+
+#pullRepoGit
+
+function startTomcat()
+{
+
+echo "hey check tomcat server is running or not"
+if netstat -lntp | grep 8080 ; then
+        echo tomcat server is already in runnin state
+else
+         echo tomcat server is not in running state,pls start
+
+   sh /opt/tomcat/bin/startup.sh
+
+   echo "tomcat server is up "
+   
+fi
+}
+
+#startTomcat
+
+function stopTomcat()
+{
+
+netstat -lntp | grep 8080
+echo $?
+
+echo "tomcat server is inrunning and lets stop the server"
+
+if [ -f /opt/tomcat/bin/shutdown.sh ];then
+        echo "shutdwonscript file is exist and try to run for stopping server"
+        sh /opt/tomcat/bin/shutdown.sh
+
+        sleep 20
+else
+        echo tomcat serer is not running 
+fi
+}
+
+#stopTomcat
+
+
+function appDeploy()
+{
+
+# calling function from another function  
+#startTomcat
+  echo hey ,let start deploying the package to tomcat server
+    cd /opt/myrepo/petclinicProject
+
+   if [ -f pom.xml ];then
+
+     mvn clean tomcat7:deploy
+
+   else
+           echo build file is not exist and cant go for deployment
+   fi
+
+
+
+}
+
+#appDeploy
+function appUndeploy()
+{
+
+#startTomcat
+
+cd /opt/tomcat/webapps
+if [ -f petclinic.war ];then
+        echo build is exist 
+
+cd /opt/myrepo/petclinicProject
+   if [ -f pom.xml ];then
+              echo build file is exist and try to undeploy
+
+              mvn tomcat7:undeploy
+      else
+               echo build file is not exist and cant undeploy
+  
+   fi
+else
+        echo no war exist and no need to undeploy
+fi
+}
+
+#appUndeploy
+function appreDeploy(){
+
+
+
+#startTomcat
+
+cd /opt/tomcat/webapps
+if [ ! -f petclinic.war ];then
+                echo build file is not exist and try for  redeploy
+
+   cd /opt/myrepo/petclinicProject
+   if [ -f pom.xml ];then
+                      echo build file is exist and try to undeploy
+
+                                 mvn tomcat7:redeploy
+                         else
+                         
+                        echo no build file is exist and no redeploy
+   fi
+else
+
+echo "its already deployed"
+fi
+}
+#appreDeploy
+   
+#Menu driven program
+select option  in pullRepoGit startTomcat stopTomcat appDeploy appUndeploy appreDeploy
+do
+        case $option in 
+        pullRepoGit)
+            pullRepoGit
+            continue
+            ;;
+     startTomcat)
+            startTomcat
+            continue
+             ;;
+     stopTomcat)
+            stopTomcat
+            continue
+             ;;
+     appDeploy)
+           appDeploy
+           continue
+          ;;
+  appUndeploy)
+          appUndeploy
+          continue
+        ;;
+appreDeploy)
+         
+    appreDeploy
+     continue
+     ;;
+
+*)
+        echo "hey u choosen wrong option,please select properone" 
+        break
+         ;;
+
+esac
+done

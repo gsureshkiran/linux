@@ -1,0 +1,196 @@
+read -p "please enter container id" containerid
+status=$(docker inspect --format '{{.State.Running}}' $containerid 2>/dev/null
+echo $status
+if [[ "$status" == "Running"]];
+then
+echo $containerid is running
+docker stop $containerid
+elif $ status == false
+then
+echo $containerid is not running state
+else
+echo container is some other state
+fi
+
+
+pipeline{
+    agent any
+    stages{
+        stage('trigger_build'){
+            steps{
+              scripts{  
+                job_result=build(job:'job-1', propagate:false).result
+                 if (job_result=='FAILURE'){
+                 currentBuild.result="UNSTABLE"
+                  }
+                     build('job-2') 
+                 }
+                
+            }
+
+        }
+    }
+}
+
+
+-----------------------------------------------------------------
+
+pipeline {
+    agent any
+    
+    stages {
+        stage('Trigger Job') {
+            steps {
+                script {
+                    // Trigger job-1 and capture the Run object
+                    def jobResult = build job: 'job-1', propagate: false
+                    
+                
+                    if (jobResult.result == 'FAILURE') {
+                        echo "Job-1 failed. Build result: ${jobResult.result}"
+                        currentBuild.result='UNSTABLE'
+                    } 
+                    else {
+                        echo "job success"
+                    }
+                    build(job: 'job-2')
+                } 
+            }
+        }
+    } 
+}    
+
+
+
+-----------------------------------------------------
+@Library('my-shared-library') _
+
+pipeline {
+    agent any
+    
+    parameters {
+        choice(name: 'FUNCTION_NAME', choices: ['function1', 'function2', 'function3'], description: 'Select function to call')
+    }
+    
+    stages {
+        stage('Call Dynamic Function') {
+            steps {
+                script {
+                    def functionName = params.FUNCTION_NAME
+                    switch (functionName) {
+                        case 'function1':
+                            function1()
+                            break
+                        case 'function2':
+                            function2()
+                            break
+                        case 'function3':
+                            function3()
+                            break
+                        default:
+                            error "Unsupported function name: ${functionName}"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+parameters {
+        choice(name: 'FUNCTION_NAME', choices: ['call()', 'call2()'], description: 'Select function to call')
+    }
+----------------------------------------------------------------------
+//@Library("my-library") _
+
+pipeline{
+    agent any
+    def filetoload='test.groovy'
+    parameters {
+        choice(name: 'FUNCTION_NAME', choices: ['call()', 'call2()'], description: 'Select function to call')
+    }
+
+    stages{
+        stage('test'){
+            steps{
+                script{
+                     switch (filetoload) {
+    case 'test.groovy':
+        @Library('my-library') _
+        // Only functions from functions1 will be available
+        switch ('FUNCTION_NAME') {
+        case 'call':
+         test.call()
+         break
+        }
+        break
+        default:
+        echo "files not loaded"
+        }
+
+                   if (filetoload == 'test.groovy'){
+                    def functionName = params.FUNCTION_NAME
+                    switch (functionName) {
+                        case 'call':
+                            test.call()
+                            break
+                        case 'call2':
+                            test.call2()
+                            break
+                        default:
+                        echo "no function avaliable"
+                    }
+
+                }
+                    }               
+            }
+            }
+        }
+    }
+}
+--------------------------------------------------
+test pipeline;;;
+
+//@Library("my-library") _
+def filetoload='test.groovy'
+switch (filetoload) {
+    case 'test.groovy':
+        @Library('my-library') _
+        // Only functions from functions1 will be available
+        break
+        default:
+        echo "files not loaded"
+}
+pipeline{
+    agent any
+    parameters {
+        choice(name: 'FUNCTION_NAME', choices: ['call()', 'call2()'], description: 'Select function to call')
+    }
+
+    stages{
+        stage('test'){
+            steps{
+                script{
+                     
+                    def functionName = params.FUNCTION_NAME
+                    switch (functionName) {
+                        case 'call':
+                         if (filetoload == 'test.groovy'){
+                            test.call()
+                            break
+                         }
+                        case 'call2':
+                            call2()
+                            break
+                        default:
+                        echo "no function avaliable"
+                    }
+
+                }
+                    }               
+            }
+            }
+        }
+    
+

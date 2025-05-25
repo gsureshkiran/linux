@@ -1,0 +1,330 @@
+                                                 LINUX administration
+                                                ----------------------
+
+
+
+Basic commands:
+---------------
+arch
+tty
+hostname
+who & who -q
+uptime
+testbed
+w
+whoami
+head
+tail
+who am i
+man
+type
+echo
+file
+
+
+
+
+files and directory creation:
+-----------------------------
+touch filename : it is used for create empty file creation and timestap
+cat > filename : it is used for redirect the output to file
+>>: it is used for append the date
+>: it is used for override the date
+mkdir: it is used to create the directory
+cd: it is used for change the directory
+cd~: it return back to user home dir
+rm: delete the file
+rmdir: delete the directory
+ls: list the files
+ls -l: list the files along with permission and size date etc..
+ls -a: it display the files and hiden files also
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Types of files in linux:
+------------------------
+ordinary file or regular file (-)
+directory file (d)
+linkfile(l)
+named file (p)
+charecter file(c)
+block file (b)
+socket file(s)
+
+Linux directory structure:
+---------------------------
+
+
+Directories	Description
+ /bin	 binary or executable programs.
+/etc	system configuration files.
+/home	home directory. It is the default current directory.
+/opt	optional or third-party software.
+/tmp	temporary space, typically cleared on reboot.
+/usr	 User related programs.
+/var 	log files.
+/boot	
+It contains all the boot-related information files and folders such as conf, grub, etc.
+
+/dev	
+It is the location of the device files such as dev/sda1, dev/sda2, etc.
+
+/lib	
+It contains kernel modules and a shared library.
+
+/lost+found	
+It is used to find recovered bits of corrupted files.
+
+/media	
+It contains subdirectories where removal media devices are inserted.
+
+/mnt	
+It contains temporary mount directories for mounting the file system.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+USER MANAGEMENT:
+-------------------
+Types of users in linux: system user (admin or root user), normal user (it is created by root user)
+
+service account are created when any software or app installed---- user id starts from 1 to 499
+static system user id are from 1 to 200
+dynamic system users are 201 to 999
+
+id -u username: it gives the uid 
+
+network user or remote users:
+  In windows-------- AD (active directory)
+  In linux ----------LDAP (light weight directory access protocal)
+sudo user:
+  it is normal user who having admin or super user permissions
+
+whenever users are created:
+----------------------------
+   /ect/passwd--- this file stores the info about users
+   /etc/shadow---- this files stores the info about user passwd
+  /etc/gshadow---- this file stores the info about groups
+
+
+commands:
+--------
+useradd filename----- used for add the user
+-m --- used for
+-c ----used for set the discription
+-g ----used fir adding the user in primary group
+-G ----used for adding the user in secondary group
+useradd -G groupname -c "devop" -d /home/user username
+su - username------------- it is sued for switching the user
+su - ----------------- it is used for root user
+gropuadd --------- used to creating the group
+passwd username---------------------it is used for set the password to the user
+groupadd groupname
+usermod---------- used for change the user level permissions
+*when the are created the default values are get from the--- /etc/default/useradd and it is saved into /etc/passwd file.
+
+* user info comes from----- /etc/passwd---- /etc/default/useradd.
+
+*/etc/login.def----- it gives default values.
+passwd -l username------ used for locking the user
+passwd -u username ------- used for unlock the user
+
+last: is is used for lastly loged in server
+lastb: used for who are attemped wrong passwd
+
+
+PASSWORD AGING:
+----------------
+checking the user current aging
+ sudo passwd -n -w -x username
+chage -l username----------------- it display the passwd aging details
+chpasswd------- it is used for set the passwd multiple users at a time
+
+
+PERMISSION:
+------------
+whenever new file is created linux assign a default permissions ----------- (-rw-r--r--)
+
+TYPES OF PERMISSION:
+---------------------
+read---r
+write---w
+excute---x
+
+OPERATIONS:
+-----------
+ + assign the permission
+- remove the permission
+= assign the absolute permission
+
+4-- read
+2---write
+1-- excute
+
+
+**for changing the default permission we use***
+chmod 777 filename
+
+STICKEYBIT:
+--------------
+restrict the user for not delete the files by users, only deleted by owner
+
+  chmod 1770 filename
+SETUID:
+-----------
+if you setuid bit is set for a file or script then the file wil always run with the owner previllages
+   chmod u+s filename
+         or
+   chmod 4777 filename
+SETGID:
+----------
+it gives th user ability to run the file with group owner previllages
+    chmod g+s filename
+           or
+    chmod 2777 filename
+STICKBIT:
+---------
+all users can read the files but only owner of the file can edir or delete the file
+  chmod +t filename
+       or 
+   chmod 1777 filename
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+TIME AND DATE COMMADNS:
+-----------------------
+date
+date +"%a"
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+FILE MANAGEMENT:
+----------------
+What is a file-------------- it is a collection of directories and fiels
+
+ disk is made up of blocks
+
+disk blocks are 4 types:
+-----------------------
+  Boot block:
+   ---------
+            it is a begining of the file system. initially power on the machhine bootstrap loader programe is excuted. one block is enough of booting machine
+  
+  super block:
+   -----------
+             it describe the state of file system like how large it is or howmany maximum files it can be stored
+   
+   inode block:
+    -----------
+                it stroes the file attributes like owner of the file group, type of file etc..
+ 
+  data block:
+  -----------
+             actua file content in the data block.
+
+TYPES OF FILE SYSTEM:
+--------------------
+ext2
+ext3
+ext4
+xfs
+zfs
+nfs
+
+
+lsblk--------- it gives the no of blocks
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+DISK AND VOLUME MANAGEMENT:
+-----------------------------
+booting process in linux----------- it intilize or test the integrity
+
+     bios---mbr-----grub------kernel----init----- runlevel
+BIOS:
+----
+    it initalize the process and it check all the hardware componets 
+
+MBR:
+----
+   master boot recorder it is located in the first sector of the boot table disk
+    mbr having 3 componetes:
+         primary bootlaoder-------446bytes
+         partition table----------64 bytes
+         mbr validation check------2 bytes
+GRUB:
+-----
+     grand unified boot loader. it is used for booting losding kernel /etc/grub.conf and /boot/grub/grub.conf
+
+KERNEL:
+--------
+   kernel is a file it excute the file. the first process is init processes it is a super process pid value is 1
+
+RUNLEVEL
+-----------
+         IT is the state of init and it will check the system that leveldefines what service are operating. runleels are 7
+        
+              0 for hault
+              1 for single user text mode
+              2 not used
+              3 for multi user text mode
+              4 not used
+              5 for full multi user mode graphical
+              6 for reboot
+
+what is disk partition:
+-----------------------
+     devide hard disk in to many logical drives
+
+why we need multiple partition:
+--------------------------------
+    it is used for protect the data/encapsulate the date. to reduce the wastage of disk
+
+
+types of partitions:
+--------------------
+MBR(master boot loader): it supports 4 partitions only
+GPTI(guid partition table): it supports 128 partitions
+
+
+
+how to create our disk:
+-----------------------
+ create a volume
+attach a volume to server
+partition the server bys using ------ fdisk /dev/devicename 
+attach a file system using -------------- mkfs.xfs device name
+mount the directory ------------- mount devicename directory name
+for unmount----- umount /dev/devicename
+
+
+if i want to store the the partitions permenetly by giving the drvies info in the /etc/fstab file
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MEMORY MANAGEMENT:
+-----------------
+types of memory:
+---------------
+            primary memory (RAM)volitail
+            secondary memory(rom) non volitail
+
+process monitoring tools and commands:
+----------------------------------------
+free: it display the total amount of memory,buffer and cache
+cat /proc/meminfo----- it gives info about each file
+top: it gives running processes along with uptime,who-q, memory info
+vstat---------it gives virtual memory stat
+iostat-----------------it gives the input output statstics for device and partitions
+sar(system activity report)
+htop
+vtop
+gtop
+vtop
+atop
+smen
+glance
+
+these all are used for to see the memory processes
+

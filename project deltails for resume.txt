@@ -1,0 +1,36 @@
+project-1
+---------
+Experienced in configuring all the tools like (SCM, Build, Testing, Deployment, Artifactory) in the Jenkins.
+Experienced in configure the webhooks to the Jenkins.
+Installing and configure and updating the Jenkins plugins
+Implementing the Jenkins pipeline using declarative scripting by using different DSL statements.
+Checking the source code quality by integrating the SonarQube in Jenkins.
+Experienced in deploy the applications in different environment using Jenkins.
+Implementing the Jenkins master slave configurations using Vms and docker.
+Monitoring the Jenkins servers by using Prometheus and Grafana.
+
+
+----------------------------------------------------------------
+Pipeline Creation: Designed, developed, and maintained Jenkins pipelines for continuous integration and continuous delivery (CI/CD) to automate the build, test, and deployment processes across multiple environments (development, testing, and production).
+Plugin Management: Integrated various Jenkins plugins, including Git, Maven, Docker, and Slack, to enhance pipeline capabilities and streamline the development workflow.
+Automated Testing: Configured automated testing frameworks (e.g., JUnit, Selenium) within Jenkins pipelines to ensure code quality and reliability before deployment.
+Infrastructure as Code (IaC): Implemented Infrastructure as Code using Jenkins and tools like Ansible and Terraform to automate infrastructure provisioning and management.
+Containerization: Integrated Docker with Jenkins to automate the building and deployment of containerized applications, ensuring consistency across different environments.
+Monitoring and Logging: Set up monitoring and logging for Jenkins jobs using tools like ELK stack (Elasticsearch, Logstash, Kibana) to track pipeline performance and troubleshoot issues.
+Version Control: Managed Jenkins pipeline code as part of version control (Git), ensuring traceability and collaboration among team members.
+Security: Implemented secure handling of credentials and sensitive data within Jenkins using Jenkins Credentials Plugin and best practices.
+Scalability: Optimized Jenkins performance by configuring distributed builds across multiple Jenkins nodes, improving build times and system reliability.
+
+------------------------------------------------------------------------------------------
+
+project-2
+---------------
+Basic Containerization: Assisted in containerizing applications using Docker by creating and managing Dockerfiles, building Docker images, and running containers.
+Kubernetes Deployment: Supported the deployment of Docker containers in a Kubernetes environment, helping set up Pods, Deployments, and Services.
+CI/CD Support: Worked with the team to integrate Docker and Kubernetes into existing CI/CD pipelines, automating simple build and deployment tasks.
+Environment Setup: Participated in setting up development, staging, and production environments in Kubernetes, ensuring consistency across all stages.
+Monitoring Assistance: Helped monitor containerized applications using tools like Prometheus and Grafana, and contributed to setting up alerts for key metrics.
+Configuration Management: Assisted in configuring Kubernetes resources like ConfigMaps and Secrets to manage application configurations and sensitive data.
+
+
+
